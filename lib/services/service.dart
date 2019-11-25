@@ -20,25 +20,20 @@ Future<Channels> getChannels() async {
   return channels;
 }
 
-Future<String> getChannelUrls(String channelTitle) async {
+Future<Channel> getChannelUrls(Channel channel) async {
   http.Response response =
       await http.post("http://163.172.218.210:3000/getUrls", headers: {
     "api-key": "6570b2a1-8647-42ee-bf1e-349d47db1d5a"
   }, body: {
     "groupTitle": "[PBTV] Portugal",
-    "channel": channelTitle,
+    "channel": channel.title,
     "offset": "0",
     "limit": "5"
   });
   print("Response ${response.body.toString()}");
-  Channel channel = Channel.fromJson(json.decode(response.body));
-  print(channel.logo);
-  print(channel.title);
-  print(channel.urls);
-  print(channel.urls[0]);
-  await channelIsWorking(channel.id, channel.urls[0], channelTitle);
-  //Returns 'true' or 'false' as a String
-  return response.body;
+  Channel channelWithOnlyUrls = Channel.fromJson(json.decode(response.body));
+  Channel channelComplete = channel.copyWith(urls: channelWithOnlyUrls.urls);
+  return channelComplete;
 }
 
 Future<String> deleteUrl(String id, String url, String channel) async {

@@ -15,8 +15,10 @@ class LoadChannels extends ChannelsEvent {}
 class SelectChannel extends ChannelsEvent {
   final Channel channelSelected;
 
-  const SelectChannel(this.channelSelected);
+  const SelectChannel({this.channelSelected});
 
   @override
   List<Object> get props => [channelSelected];
 }
+
+class PlayerInitalized extends ChannelsEvent {}

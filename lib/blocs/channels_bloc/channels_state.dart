@@ -8,28 +8,32 @@ class ChannelsState extends Equatable {
   final Channel channelSelected;
   final bool isPlay;
   final bool isLoading;
+  final bool isPlayerInitialized;
 
-  const ChannelsState(
-      this.channels, this.channelSelected, this.isPlay, this.isLoading);
+  const ChannelsState(this.channels, this.channelSelected, this.isPlay,
+      this.isLoading, this.isPlayerInitialized);
 
   factory ChannelsState.initialState() {
-    return ChannelsState(null, null, false, true);
+    return ChannelsState(null, null, false, true, false);
   }
 
   ChannelsState copyWith(
       {Channels channels,
       Channel channelSelected,
       bool isPlay,
-      bool isLoading}) {
+      bool isLoading,
+      bool isPlayerInitialized}) {
     return ChannelsState(
         channels ?? this.channels,
         channelSelected ?? this.channelSelected,
         isPlay ?? this.isPlay,
-        isLoading ?? this.isLoading);
+        isLoading ?? this.isLoading,
+        isPlayerInitialized ?? this.isPlayerInitialized);
   }
 
   @override
-  List<Object> get props => [channels, channelSelected, isPlay, isLoading];
+  List<Object> get props =>
+      [channels, channelSelected, isPlay, isLoading, isPlayerInitialized];
 
   @override
   String toString() {

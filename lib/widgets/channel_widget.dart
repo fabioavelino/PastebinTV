@@ -15,11 +15,21 @@ class ChannelWidget extends StatelessWidget {
           onPressed();
         },
         child: Container(
-          child: Row(children: [
-            Stack(children: [Image.network(background), Image.network(icon)]),
-            Text(title)
-          ]),
-          decoration: BoxDecoration(border: Border.all()),
-        ));
+            child: Row(
+              children: [
+                /* Stack(children: [
+              background != null ? Image.network(background) : null,
+              icon != null ? Image.network(icon) : null
+            ]), */
+                Center(child: Text(title)),
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+            decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 0),
+            width: 150,
+            margin: EdgeInsets.all(20)));
   }
 }

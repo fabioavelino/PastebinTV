@@ -17,4 +17,9 @@ class Channel extends Equatable {
         urlsFromJson.map((channel) => channel as String).toList();
     return Channel(json['_id'], json['title'], json['tvgLogo'], urls);
   }
+
+  Channel copyWith({String id, String title, String logo, List<String> urls}) {
+    return Channel(id ?? this.id, title ?? this.title, logo ?? this.logo,
+        urls ?? this.urls);
+  }
 }

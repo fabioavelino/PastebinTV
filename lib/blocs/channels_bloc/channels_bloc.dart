@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:pastebintv/models/channel.dart';
 import 'package:pastebintv/models/channels.dart';
 import 'package:pastebintv/services/service.dart';
 import './bloc.dart';
@@ -26,9 +27,17 @@ class ChannelsBloc extends Bloc<ChannelsEvent, ChannelsState> {
       //Todo faire le call ici et faire un yield du nouveau state (si success ou error)
     }
     if (event is SelectChannel) {
-      final newState =
-          currentState.copyWith(channelSelected: event.channelSelected);
+      final newState = currentState.copyWith(
+          channelSelected: event.channelSelected,
+          isLoading: true,
+          isPlayerInitialized: false);
       yield newState;
+      Channel channelComplete = await getChannelUrls(event.channelSelected);
+      yield newState.copyWith(
+          channelSelected: channelComplete, isLoading: false);
+    }
+    if (event is PlayerInitalized) {
+      yield state.copyWith(isPlayerInitialized: true);
     }
   }
 }
