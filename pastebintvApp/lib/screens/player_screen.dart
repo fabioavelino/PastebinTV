@@ -20,6 +20,13 @@ class PlayerScreenState extends State<PlayerScreen> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
+
+    final ChannelsBloc channelsBloc = BlocProvider.of<ChannelsBloc>(context);
+
+    if (channelsBloc.state.isPlayerInitialized == false) {
+      initPlayer(channelsBloc.state.channelSelected, 0);
+      channelsBloc.add(PlayerInitalized());
+    }
   }
 
   @override
@@ -50,17 +57,16 @@ class PlayerScreenState extends State<PlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ChannelsBloc channelsBloc = BlocProvider.of<ChannelsBloc>(context);
+    /* final ChannelsBloc channelsBloc = BlocProvider.of<ChannelsBloc>(context);
 
     return BlocBuilder<ChannelsBloc, ChannelsState>(builder: (context, state) {
       if (state.isPlayerInitialized == false) {
         initPlayer(state.channelSelected, 0);
         channelsBloc.add(PlayerInitalized());
-      }
+      } */
 
-      return Container(
-          child: Row(
-              children: <Widget>[Expanded(child: VideoPlayer(_controller))]));
-    });
+    return Container(
+        child:
+            Row(children: <Widget>[Expanded(child: VideoPlayer(_controller))]));
   }
 }
