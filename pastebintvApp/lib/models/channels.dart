@@ -11,10 +11,9 @@ class Channels extends Equatable {
   @override
   List<Object> get props => [groupTitle, channels];
 
-  factory Channels.fromJson(Map<String, dynamic> json) {
-    List<dynamic> channelsFromJson = json['channel'];
+  factory Channels.fromJson(List<dynamic> json) {
     List<Channel> channels =
-        channelsFromJson.map((channel) => Channel.fromJson(channel)).toList();
-    return Channels(json['_id'], json['groupTitle'], channels);
+        json.map((channel) => Channel.fromJson(channel)).toList();
+    return Channels('', '', channels);
   }
 }

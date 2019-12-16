@@ -24,7 +24,7 @@ class PlayerScreenState extends State<PlayerScreen> {
     final ChannelsBloc channelsBloc = BlocProvider.of<ChannelsBloc>(context);
 
     if (channelsBloc.state.isPlayerInitialized == false) {
-      initPlayer(channelsBloc.state.channelSelected, 0);
+      initPlayer(channelsBloc.state.channelSelected);
       channelsBloc.add(PlayerInitalized());
     }
   }
@@ -40,18 +40,15 @@ class PlayerScreenState extends State<PlayerScreen> {
     super.dispose();
   }
 
-  void initPlayer(Channel channel, int index) {
-    if (index >= 5) {
-      return;
-    }
-    _controller = VideoPlayerController.network(channel.urls[index])
+  void initPlayer(Channel channel) {
+    _controller = VideoPlayerController.network(channel.url)
       ..initialize().then((_) {
         _controller.play();
         return;
       }).catchError((onError) {
-        initPlayer(channel, index + 1);
+        print('Error during initPlayer');
       }).timeout(Duration(seconds: 3), onTimeout: () {
-        initPlayer(channel, index + 1);
+        print('Error timeout');
       });
   }
 

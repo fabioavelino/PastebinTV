@@ -29,12 +29,9 @@ class ChannelsBloc extends Bloc<ChannelsEvent, ChannelsState> {
     if (event is SelectChannel) {
       final newState = currentState.copyWith(
           channelSelected: event.channelSelected,
-          isLoading: true,
+          isLoading: false,
           isPlayerInitialized: false);
       yield newState;
-      Channel channelComplete = await getChannelUrls(event.channelSelected);
-      yield newState.copyWith(
-          channelSelected: channelComplete, isLoading: false);
     }
     if (event is PlayerInitalized) {
       yield state.copyWith(isPlayerInitialized: true);
