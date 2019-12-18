@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ChannelWidget extends StatelessWidget {
   final String title;
@@ -7,9 +8,17 @@ class ChannelWidget extends StatelessWidget {
   final VoidCallback onPressed;
 
   ChannelWidget(this.title, this.icon, this.background, this.onPressed);
+
   @override
   Widget build(BuildContext context) {
-    return Focus(child: Builder(builder: (BuildContext context) {
+    return Focus(onKey: (FocusNode focusNode, RawKeyEvent e) {
+      print("on tap");
+      if (e.logicalKey == LogicalKeyboardKey.select) {
+        onPressed();
+        return true;
+      }
+      return false;
+    }, child: Builder(builder: (BuildContext context) {
       final FocusNode focusNode = Focus.of(context);
       final bool hasFocus = focusNode.hasFocus;
       return GestureDetector(
