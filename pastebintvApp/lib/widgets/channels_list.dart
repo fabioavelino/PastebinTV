@@ -10,7 +10,7 @@ class ChannelsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int elementPerRow = 2;
+    int elementPerRow = (MediaQuery.of(context).size.width / 230).floor();
     double lengthOfList;
     if (channels.channels.length % elementPerRow > 0) {
       lengthOfList = (channels.channels.length -
