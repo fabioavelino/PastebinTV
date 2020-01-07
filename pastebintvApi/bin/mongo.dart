@@ -11,28 +11,31 @@ class Mongo {
     _db = Db('mongodb://channels:channels123@$ip:27017/channels');
   }
 
-  Future<List<Map<String, dynamic>>> getChannelsByCountry(
-      String country) async {
+  Future<List<String>> getChannelsByCountry(String country) async {
     return _getChannels('^\\W*$country\\W+|\\W+$country\$');
   }
 
-  Future<List<Map<String, dynamic>>> getChannelsByName(String name) async {
+  Future<List<String>> getChannelsByName(String name) async {
     var nameDecoded = Uri.decodeComponent(name);
     print(nameDecoded);
     return _getChannels('$nameDecoded');
   }
 
-  Future<List<Map<String, dynamic>>> _getChannels(String pattern) async {
+  Future<List<String>> _getChannels(String pattern) async {
     try {
       await _db.open();
       var coll = _db.collection('channels');
       var result = await coll
           .find(where
+              .eq('tested', false)
               .match('title', pattern, caseInsensitive: true)
               .sortBy('created', descending: true))
           .toList();
+      var resultMapped = result.map((entry) {
+        return entry['url'] as String;
+      }).toList();
       await _db.close();
-      return result;
+      return resultMapped;
     } catch (error) {
       print('Error');
       print(error);
