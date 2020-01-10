@@ -30,5 +30,15 @@ void main() async {
         headers: {'Content-Type': 'application/json'});
   });
 
-  var server = await serve(app.handler, '192.168.1.9', 8080);
+  app.get('/channels/groups', (Request request) async {
+    /* if (request.headers['api-key'] != apiKey) {
+      return Response.notFound('');
+    } */
+    var mongo = Mongo();
+    var result = await mongo.getGroups();
+    return Response.ok(jsonEncode(result),
+        headers: {'Content-Type': 'application/json'});
+  });
+
+  var server = await serve(app.handler, '192.168.1.2', 8080);
 }

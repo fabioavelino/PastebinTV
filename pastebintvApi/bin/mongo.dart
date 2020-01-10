@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:mongo_dart/mongo_dart.dart';
 
-final ip = '192.168.1.2';
-//final ip = '127.0.0.1';
+//final ip = '192.168.1.2';
+final ip = '127.0.0.1';
 
 class Mongo {
   Db _db;
@@ -36,6 +36,20 @@ class Mongo {
       }).toList();
       await _db.close();
       return resultMapped;
+    } catch (error) {
+      print('Error');
+      print(error);
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getGroups() async {
+    try {
+      await _db.open();
+      var coll = _db.collection('groups');
+      var result = await coll.find().toList();
+      await _db.close();
+      return result;
     } catch (error) {
       print('Error');
       print(error);
